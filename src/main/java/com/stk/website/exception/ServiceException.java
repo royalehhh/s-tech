@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class ServiceException extends RuntimeException {
 
-    private String code;
+    private Integer code;
 
     private String message;
 

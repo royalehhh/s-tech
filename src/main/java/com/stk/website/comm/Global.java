@@ -4,12 +4,17 @@ package com.stk.website.comm;
 import com.stk.website.dto.inner.PageRequest;
 import com.stk.website.util.CommonUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author royle.huang
  * @Date 2019/2/1 14:32
  * @Description 全局变量和方法
  **/
 public class Global {
+
+    public static Map<String, String> tokenMap = new HashMap<>();
 
 
     public static QueryPage getQueryPage(PageRequest pager) {
