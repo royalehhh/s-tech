@@ -1,0 +1,15 @@
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://39.108.56.72:3306/s-tech?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong&useSSL=false
+    username: nchuagong
+    password: nchuagongdb
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
