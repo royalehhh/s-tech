@@ -16,6 +16,10 @@ public class Global {
 
     public static Map<String, String> tokenMap = new HashMap<>();
 
+    public static long getTotalPage(long total, long row){
+        return (total+row-1)/row;
+    }
+
 
     public static QueryPage getQueryPage(PageRequest pager) {
         QueryPage queryPage = new QueryPage();

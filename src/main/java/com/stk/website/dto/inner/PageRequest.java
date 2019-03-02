@@ -18,5 +18,8 @@ public class PageRequest extends BaseRequest {
     private String sort;//排序字段
     private String order;//排序方式
     private String keyWord;//关键字
+    public long getLimitStart(){
+        return (page-1)*row;
+    }
 
 }

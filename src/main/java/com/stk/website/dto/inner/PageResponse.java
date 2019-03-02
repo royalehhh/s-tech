@@ -16,4 +16,5 @@ public class PageResponse<T> extends BaseResponse {
     private Long totalCount;
     private Long totalPage;
     private List<T> pageList;
+
 }

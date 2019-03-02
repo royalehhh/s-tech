@@ -88,7 +88,7 @@ public class QueryPage implements Serializable {
 		this.targetPage = targetPage;
 	}
 
-	public int getLimitStart() {
+	public long getLimitStart() {
 		return (targetPage - 1) * pageSize;
 	}
 	
