@@ -6,6 +6,7 @@ import com.stk.website.dao.mapper.NewsMapper;
 import com.stk.website.dao.model.News;
 import com.stk.website.dao.model.NewsExample;
 import com.stk.website.dto.NewsResponse;
+import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.dto.inner.PageRequest;
 import com.stk.website.dto.inner.PageResponse;
 import com.stk.website.service.INewsService;
@@ -27,7 +28,7 @@ public class NewsServiceImpl implements INewsService {
         example.setOffset(request.getLimitStart());
         example.setLimit(request.getRow());
         example.setOrderByClause("id");
-        List<News> list = newsMapper.selectByExample(example);
+        List<News> list = newsMapper.selectByExampleWithBLOBs(example);
         long total = newsMapper.countByExample(example);
         response.setPageList(list);
         response.setTotalCount(total);
@@ -45,6 +46,33 @@ public class NewsServiceImpl implements INewsService {
             return response;
         }
         response.setNews(news);
+        return response;
+    }
+
+    @Override
+    public BaseResponse addNews(News news) {
+        BaseResponse response = new BaseResponse();
+        newsMapper.insert(news);
+        return response;
+    }
+
+    @Override
+    public BaseResponse editNews(News news) {
+        BaseResponse response = new BaseResponse();
+        News bean = newsMapper.selectByPrimaryKey(news.getId());
+        if (bean==null){
+            response.setCode(ErrorConstant.DATABASE_NO_DATA_CODE);
+            response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
+            return response;
+        }
+        newsMapper.updateByPrimaryKeyWithBLOBs(news);
+        return response;
+    }
+
+    @Override
+    public BaseResponse deleteNews(Integer id) {
+        BaseResponse response = new BaseResponse();
+        newsMapper.deleteByPrimaryKey(id);
         return response;
     }
 }

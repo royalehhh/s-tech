@@ -25,7 +25,7 @@ public class PermissionFilter implements Filter {
             String token = (String) request.getSession().getAttribute("token");
             String userName = (String) request.getSession().getAttribute("name");
             if (token == null || !token.equals(Global.tokenMap.get(userName))){
-                throw new ServiceException(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
+//                throw new ServiceException(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
             }
         }
         filterChain.doFilter(request, servletResponse);

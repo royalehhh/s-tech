@@ -9,11 +9,14 @@ import com.stk.website.dao.model.ProductDetail;
 import com.stk.website.dao.model.ProductDetailExample;
 import com.stk.website.dao.model.ProductExample;
 import com.stk.website.dto.ProductResponse;
+import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.dto.inner.PageRequest;
 import com.stk.website.dto.inner.PageResponse;
+import com.stk.website.exception.ServiceException;
 import com.stk.website.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,6 +59,87 @@ public class ProductServiceImpl implements IProductService {
         List<ProductDetail> list = productDetailMapper.selectByExampleWithBLOBs(example);
         product.setDetails(list);
         response.setProduct(product);
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public BaseResponse addProduct(Product product) {
+        BaseResponse response = new BaseResponse();
+        productMapper.insert(product);
+        List<ProductDetail> list = product.getDetails();
+        if (list != null && !list.isEmpty()){
+            for (ProductDetail productDetail : list) {
+                productDetailMapper.insert(productDetail);
+            }
+        }
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public BaseResponse editProduct(Product product) {
+        BaseResponse response = new BaseResponse();
+        Product bean = productMapper.selectByPrimaryKey(product.getId());
+        if (bean == null){
+            response.setCode(ErrorConstant.DATABASE_NO_DATA_CODE);
+            response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
+            return response;
+        }
+        productMapper.updateByPrimaryKey(product);
+        List<ProductDetail> list = product.getDetails();
+        if (list != null && !list.isEmpty()){
+            for (ProductDetail productDetail : list) {
+                if (productDetail.getId()==null){
+                    throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
+                }
+                productDetailMapper.updateByPrimaryKeyWithBLOBs(productDetail);
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public BaseResponse addProductDetail(ProductDetail productDetail) {
+        BaseResponse response = new BaseResponse();
+        productDetailMapper.insert(productDetail);
+        return response;
+    }
+
+    @Override
+    public BaseResponse editProductDetail(ProductDetail productDetail) {
+        BaseResponse response = new BaseResponse();
+        if (productDetail.getId()==null){
+            throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
+        }
+        ProductDetail detail = productDetailMapper.selectByPrimaryKey(productDetail.getId());
+        if (detail==null){
+            response.setCode(ErrorConstant.DATABASE_NO_DATA_CODE);
+            response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
+            return response;
+        }
+        productDetailMapper.updateByPrimaryKeyWithBLOBs(productDetail);
+        return response;
+    }
+
+    @Override
+    public BaseResponse deleteProductDetail(Integer id) {
+        BaseResponse response = new BaseResponse();
+        productDetailMapper.deleteByPrimaryKey(id);
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public BaseResponse deleteProduct(Integer id) {
+        BaseResponse response = new BaseResponse();
+        //删除产品详情
+        ProductDetailExample example = new ProductDetailExample();
+        ProductDetailExample.Criteria criteria = example.createCriteria();
+        criteria.andProductIdEqualTo(id);
+        productDetailMapper.deleteByExample(example);
+        //删除产品
+        productMapper.deleteByPrimaryKey(id);
         return response;
     }
 }
