@@ -23,10 +23,12 @@ public class PermissionFilter implements Filter {
         String url = request.getRequestURI();
         if (url.contains("manage")){
             String token = (String) request.getSession().getAttribute("token");
+//            String token = request.getHeader("token");
             String userName = (String) request.getSession().getAttribute("name");
             if (token == null || !token.equals(Global.tokenMap.get(userName))){
-//                throw new ServiceException(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
+                throw new ServiceException(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
             }
+            request.getSession().setMaxInactiveInterval(60*60);
         }
         filterChain.doFilter(request, servletResponse);
     }
