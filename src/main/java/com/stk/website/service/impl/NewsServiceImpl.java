@@ -52,6 +52,13 @@ public class NewsServiceImpl implements INewsService {
     @Override
     public BaseResponse addNews(News news) {
         BaseResponse response = new BaseResponse();
+        String info = "";
+        if (news.getContent().length()>100){
+            info = news.getContent().substring(100);
+        }else {
+            info = news.getContent();
+        }
+        news.setIntroduction(info);
         newsMapper.insert(news);
         return response;
     }

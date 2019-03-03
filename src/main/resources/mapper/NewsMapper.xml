@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-    <result column="news_type" jdbcType="INTEGER" property="newsType" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, img, introduction, news_type, create_time, update_time
+    id, img, introduction, title, create_time, update_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -89,7 +89,7 @@
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null">
-      order by ${orderByClause} desc
+      order by ${orderByClause}
     </if>
     <if test="limit != null">
       <if test="offset != null">
@@ -141,10 +141,10 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.stk.website.dao.model.News" useGeneratedKeys="true">
-    insert into news (img, introduction, news_type, 
+    insert into news (img, introduction, title, 
       create_time, update_time, content
       )
-    values (#{img,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{newsType,jdbcType=INTEGER}, 
+    values (#{img,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -157,8 +157,8 @@
       <if test="introduction != null">
         introduction,
       </if>
-      <if test="newsType != null">
-        news_type,
+      <if test="title != null">
+        title,
       </if>
       <if test="createTime != null">
         create_time,
@@ -177,8 +177,8 @@
       <if test="introduction != null">
         #{introduction,jdbcType=VARCHAR},
       </if>
-      <if test="newsType != null">
-        #{newsType,jdbcType=INTEGER},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -209,8 +209,8 @@
       <if test="record.introduction != null">
         introduction = #{record.introduction,jdbcType=VARCHAR},
       </if>
-      <if test="record.newsType != null">
-        news_type = #{record.newsType,jdbcType=INTEGER},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -231,7 +231,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       img = #{record.img,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=VARCHAR},
-      news_type = #{record.newsType,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       content = #{record.content,jdbcType=LONGVARCHAR}
@@ -244,7 +244,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       img = #{record.img,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=VARCHAR},
-      news_type = #{record.newsType,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -260,8 +260,8 @@
       <if test="introduction != null">
         introduction = #{introduction,jdbcType=VARCHAR},
       </if>
-      <if test="newsType != null">
-        news_type = #{newsType,jdbcType=INTEGER},
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -279,7 +279,7 @@
     update news
     set img = #{img,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=VARCHAR},
-      news_type = #{newsType,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=LONGVARCHAR}
@@ -289,7 +289,7 @@
     update news
     set img = #{img,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=VARCHAR},
-      news_type = #{newsType,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

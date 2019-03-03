@@ -325,63 +325,73 @@ public class NewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeIsNull() {
-            addCriterion("news_type is null");
+        public Criteria andTitleIsNull() {
+            addCriterion("title is null");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeIsNotNull() {
-            addCriterion("news_type is not null");
+        public Criteria andTitleIsNotNull() {
+            addCriterion("title is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeEqualTo(Integer value) {
-            addCriterion("news_type =", value, "newsType");
+        public Criteria andTitleEqualTo(String value) {
+            addCriterion("title =", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeNotEqualTo(Integer value) {
-            addCriterion("news_type <>", value, "newsType");
+        public Criteria andTitleNotEqualTo(String value) {
+            addCriterion("title <>", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeGreaterThan(Integer value) {
-            addCriterion("news_type >", value, "newsType");
+        public Criteria andTitleGreaterThan(String value) {
+            addCriterion("title >", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("news_type >=", value, "newsType");
+        public Criteria andTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("title >=", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeLessThan(Integer value) {
-            addCriterion("news_type <", value, "newsType");
+        public Criteria andTitleLessThan(String value) {
+            addCriterion("title <", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeLessThanOrEqualTo(Integer value) {
-            addCriterion("news_type <=", value, "newsType");
+        public Criteria andTitleLessThanOrEqualTo(String value) {
+            addCriterion("title <=", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeIn(List<Integer> values) {
-            addCriterion("news_type in", values, "newsType");
+        public Criteria andTitleLike(String value) {
+            addCriterion("title like", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeNotIn(List<Integer> values) {
-            addCriterion("news_type not in", values, "newsType");
+        public Criteria andTitleNotLike(String value) {
+            addCriterion("title not like", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeBetween(Integer value1, Integer value2) {
-            addCriterion("news_type between", value1, value2, "newsType");
+        public Criteria andTitleIn(List<String> values) {
+            addCriterion("title in", values, "title");
             return (Criteria) this;
         }
 
-        public Criteria andNewsTypeNotBetween(Integer value1, Integer value2) {
-            addCriterion("news_type not between", value1, value2, "newsType");
+        public Criteria andTitleNotIn(List<String> values) {
+            addCriterion("title not in", values, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleBetween(String value1, String value2) {
+            addCriterion("title between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotBetween(String value1, String value2) {
+            addCriterion("title not between", value1, value2, "title");
             return (Criteria) this;
         }
 

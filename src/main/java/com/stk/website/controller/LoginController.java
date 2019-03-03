@@ -44,6 +44,7 @@ public class LoginController {
             String token = UUID.randomUUID().toString().replace("-","");
             Global.tokenMap.put(name, token);
             request.getSession().setAttribute("token", token);
+            request.getSession().setAttribute("name", name);
         }
         return response;
     }

@@ -17,7 +17,7 @@ public class News implements Serializable {
     /**
      * 新闻类型： 1.新闻动态 2.行业资讯
      */
-    private Integer newsType;
+    private String title;
 
     /**
      * 发布时间
@@ -57,12 +57,12 @@ public class News implements Serializable {
         this.introduction = introduction;
     }
 
-    public Integer getNewsType() {
-        return newsType;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNewsType(Integer newsType) {
-        this.newsType = newsType;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getCreateTime() {
