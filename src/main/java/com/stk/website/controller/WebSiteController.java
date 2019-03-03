@@ -4,15 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.stk.website.comm.ErrorConstant;
 import com.stk.website.dao.model.News;
 import com.stk.website.dao.model.Product;
-import com.stk.website.dto.NewsRequest;
-import com.stk.website.dto.NewsResponse;
-import com.stk.website.dto.ProductRequest;
-import com.stk.website.dto.ProductResponse;
+import com.stk.website.dao.model.Video;
+import com.stk.website.dto.*;
+import com.stk.website.dto.inner.BaseRequest;
+import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.dto.inner.PageRequest;
 import com.stk.website.dto.inner.PageResponse;
 import com.stk.website.exception.ServiceException;
 import com.stk.website.service.INewsService;
 import com.stk.website.service.IProductService;
+import com.stk.website.service.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,8 @@ public class WebSiteController {
     IProductService productService;
     @Autowired
     INewsService newsService;
+    @Autowired
+    IVideoService videoService;
 
 
     /**
@@ -83,6 +86,35 @@ public class WebSiteController {
         NewsResponse response = newsService.queryNewsDetail(request.getId());
         return response;
     }
+
+    /**
+     * @author Royle.Huang
+     * @date 2019/3/2 18:00
+     * @description: 视频列表
+     */
+    @PostMapping("/video/list")
+    public PageResponse<Video> queryVideoListByPage(@RequestBody String json){
+        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+        PageResponse<Video> response = videoService.queryVideoListByPage(request);
+        return response;
+    }
+
+    /**
+     * @author Royle.Huang
+     * @date 2019/3/3 9:37
+     * @description: 视频详情
+     */
+    @PostMapping("/video/detail")
+    public VideoResponse queryVideoDetail(@RequestBody String json){
+        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
+        Integer id = request.getId();
+        if (id == null) {
+            throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
+        }
+        VideoResponse response = videoService.queryVideoDetail(id);
+        return response;
+    }
+
 
 
 }
