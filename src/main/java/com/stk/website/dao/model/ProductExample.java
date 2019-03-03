@@ -465,6 +465,66 @@ public class ProductExample {
             return (Criteria) this;
         }
 
+        public Criteria andShowHomeIsNull() {
+            addCriterion("show_home is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeIsNotNull() {
+            addCriterion("show_home is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeEqualTo(Integer value) {
+            addCriterion("show_home =", value, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeNotEqualTo(Integer value) {
+            addCriterion("show_home <>", value, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeGreaterThan(Integer value) {
+            addCriterion("show_home >", value, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("show_home >=", value, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeLessThan(Integer value) {
+            addCriterion("show_home <", value, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeLessThanOrEqualTo(Integer value) {
+            addCriterion("show_home <=", value, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeIn(List<Integer> values) {
+            addCriterion("show_home in", values, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeNotIn(List<Integer> values) {
+            addCriterion("show_home not in", values, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeBetween(Integer value1, Integer value2) {
+            addCriterion("show_home between", value1, value2, "showHome");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowHomeNotBetween(Integer value1, Integer value2) {
+            addCriterion("show_home not between", value1, value2, "showHome");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

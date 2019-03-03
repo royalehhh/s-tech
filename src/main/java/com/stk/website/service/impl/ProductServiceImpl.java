@@ -8,6 +8,7 @@ import com.stk.website.dao.model.Product;
 import com.stk.website.dao.model.ProductDetail;
 import com.stk.website.dao.model.ProductDetailExample;
 import com.stk.website.dao.model.ProductExample;
+import com.stk.website.dto.HomeProductResponse;
 import com.stk.website.dto.ProductResponse;
 import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.dto.inner.PageRequest;
@@ -140,6 +141,17 @@ public class ProductServiceImpl implements IProductService {
         productDetailMapper.deleteByExample(example);
         //删除产品
         productMapper.deleteByPrimaryKey(id);
+        return response;
+    }
+
+    @Override
+    public HomeProductResponse queryProductListHome() {
+        HomeProductResponse response = new HomeProductResponse();
+        ProductExample example = new ProductExample();
+        ProductExample.Criteria criteria = example.createCriteria();
+        criteria.andShowHomeEqualTo(1);
+        List<Product> list = productMapper.selectByExample(example);
+        response.setProducts(list);
         return response;
     }
 }

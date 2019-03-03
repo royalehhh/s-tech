@@ -7,6 +7,7 @@
     <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="model" jdbcType="VARCHAR" property="model" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="show_home" jdbcType="INTEGER" property="showHome" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, img, model, `desc`, create_time
+    id, `name`, img, model, `desc`, show_home, create_time
   </sql>
   <select id="selectByExample" parameterType="com.stk.website.dao.model.ProductExample" resultMap="BaseResultMap">
     select
@@ -81,7 +82,7 @@
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null">
-      order by ${orderByClause} desc
+      order by ${orderByClause}
     </if>
     <if test="limit != null">
       <if test="offset != null">
@@ -110,9 +111,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.stk.website.dao.model.Product" useGeneratedKeys="true">
     insert into product (`name`, img, model, 
-      `desc`, create_time)
+      `desc`, show_home, create_time
+      )
     values (#{name,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
-      #{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{desc,jdbcType=VARCHAR}, #{showHome,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.stk.website.dao.model.Product" useGeneratedKeys="true">
     insert into product
@@ -128,6 +131,9 @@
       </if>
       <if test="desc != null">
         `desc`,
+      </if>
+      <if test="showHome != null">
+        show_home,
       </if>
       <if test="createTime != null">
         create_time,
@@ -145,6 +151,9 @@
       </if>
       <if test="desc != null">
         #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="showHome != null">
+        #{showHome,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -175,6 +184,9 @@
       <if test="record.desc != null">
         `desc` = #{record.desc,jdbcType=VARCHAR},
       </if>
+      <if test="record.showHome != null">
+        show_home = #{record.showHome,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -190,6 +202,7 @@
       img = #{record.img,jdbcType=VARCHAR},
       model = #{record.model,jdbcType=VARCHAR},
       `desc` = #{record.desc,jdbcType=VARCHAR},
+      show_home = #{record.showHome,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +223,9 @@
       <if test="desc != null">
         `desc` = #{desc,jdbcType=VARCHAR},
       </if>
+      <if test="showHome != null">
+        show_home = #{showHome,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -222,6 +238,7 @@
       img = #{img,jdbcType=VARCHAR},
       model = #{model,jdbcType=VARCHAR},
       `desc` = #{desc,jdbcType=VARCHAR},
+      show_home = #{showHome,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

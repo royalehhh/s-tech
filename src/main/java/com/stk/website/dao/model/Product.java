@@ -1,5 +1,7 @@
 package com.stk.website.dao.model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
  * product
  * @author 
  */
+
+@Data
 public class Product implements Serializable {
     private Integer id;
 
@@ -32,67 +36,17 @@ public class Product implements Serializable {
     private String desc;
 
     /**
+     * 是否首页展示 0 不展示 1.展示
+     */
+    private Integer showHome;
+
+    /**
      * 创建时间
      */
     private Date createTime;
 
-    private List<ProductDetail> details;
+    List<ProductDetail> details;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public List<ProductDetail> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<ProductDetail> details) {
-        this.details = details;
-    }
 }

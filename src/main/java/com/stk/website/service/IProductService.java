@@ -2,6 +2,7 @@ package com.stk.website.service;
 
 import com.stk.website.dao.model.Product;
 import com.stk.website.dao.model.ProductDetail;
+import com.stk.website.dto.HomeProductResponse;
 import com.stk.website.dto.ProductResponse;
 import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.dto.inner.PageRequest;
@@ -64,4 +65,12 @@ public interface IProductService {
      * @description: 删除产品
      */
     BaseResponse deleteProduct(Integer id);
+
+    /**
+     * @author Royle.Huang
+     * @date 2019/3/3 14:52
+     * @description: 首页展示产品
+     */
+    HomeProductResponse queryProductListHome();
+
 }

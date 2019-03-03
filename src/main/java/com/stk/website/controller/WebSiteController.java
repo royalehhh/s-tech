@@ -34,6 +34,17 @@ public class WebSiteController {
 
     /**
      * @author Royle.Huang
+     * @date 2019/3/3 14:49
+     * @description: 首页产品
+     */
+    @PostMapping("/product/home")
+    public HomeProductResponse queryProductListHome() {
+        HomeProductResponse response = productService.queryProductListHome();
+        return response;
+    }
+
+    /**
+     * @author Royle.Huang
      * @date 2019/3/2 11:48
      * @description: 产品列表
      */
