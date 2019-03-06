@@ -58,6 +58,9 @@ public class ProductServiceImpl implements IProductService {
         criteria.andProductIdEqualTo(productId);
         example.setOrderByClause("`index`, id");
         List<ProductDetail> list = productDetailMapper.selectByExampleWithBLOBs(example);
+//        for (ProductDetail productDetail : list) {
+//            productDetail.getFunctionDesc().replace("\\r\\n", "<br/>").replace("\\t", " ");
+//        }
         product.setDetails(list);
         response.setProduct(product);
         return response;

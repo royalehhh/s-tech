@@ -19,6 +19,8 @@ import com.stk.website.service.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/manage")
 public class BackStageController {
@@ -180,6 +182,8 @@ public class BackStageController {
     @PostMapping("/news/add")
     public BaseResponse addNews(@RequestBody String json){
         News news = JSONObject.parseObject(json, News.class);
+        news.setCreateTime(new Date());
+        news.setUpdateTime(new Date());
         BaseResponse response = newsService.addNews(news);
         return response;
     }
@@ -195,6 +199,7 @@ public class BackStageController {
         if (news.getId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
+        news.setUpdateTime(new Date());
         BaseResponse response = newsService.editNews(news);
         return response;
     }
