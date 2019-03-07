@@ -13,6 +13,7 @@ import com.stk.website.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -66,6 +67,7 @@ public class NewsServiceImpl implements INewsService {
             info = news.getContent();
         }
         news.setIntroduction(info);
+        news.setCreateTime(new Date());
         newsMapper.insert(news);
         return response;
     }
@@ -86,6 +88,7 @@ public class NewsServiceImpl implements INewsService {
             info = news.getContent();
         }
         news.setIntroduction(info);
+        news.setCreateTime(bean.getCreateTime());
         newsMapper.updateByPrimaryKeyWithBLOBs(news);
         return response;
     }

@@ -13,6 +13,7 @@ import com.stk.website.service.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +53,7 @@ public class VideoServiceImpl implements IVideoService {
     @Override
     public BaseResponse addVideo(Video video) {
         BaseResponse response = new BaseResponse();
+        video.setCreateTime(new Date());
         videoMapper.insert(video);
         return response;
     }
@@ -65,6 +67,7 @@ public class VideoServiceImpl implements IVideoService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        video.setCreateTime(bean.getCreateTime());
         videoMapper.updateByPrimaryKey(video);
         return response;
     }

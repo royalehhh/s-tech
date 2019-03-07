@@ -97,6 +97,7 @@ public class ProductServiceImpl implements IProductService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        product.setCreateTime(bean.getCreateTime());
         productMapper.updateByPrimaryKey(product);
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
