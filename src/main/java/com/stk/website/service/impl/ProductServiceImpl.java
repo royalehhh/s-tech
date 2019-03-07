@@ -38,6 +38,11 @@ public class ProductServiceImpl implements IProductService {
         example.setOrderByClause("id");
         List<Product> list = productMapper.selectByExample(example);
         long total = productMapper.countByExample(example);
+        if (!list.isEmpty()){
+            for (Product product : list) {
+                product.getDesc().replace("\\r\\n", "<br/>").replace("\\t", " ");
+            }
+        }
         response.setPageList(list);
         response.setTotalCount(total);
         response.setTotalPage(Global.getTotalPage(total, request.getRow()));
