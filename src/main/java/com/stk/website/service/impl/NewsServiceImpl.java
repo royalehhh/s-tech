@@ -72,6 +72,13 @@ public class NewsServiceImpl implements INewsService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        String info = "";
+        if (news.getContent().length()>100){
+            info = news.getContent().substring(100);
+        }else {
+            info = news.getContent();
+        }
+        news.setIntroduction(info);
         newsMapper.updateByPrimaryKeyWithBLOBs(news);
         return response;
     }

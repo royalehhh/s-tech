@@ -40,7 +40,8 @@ public class ProductServiceImpl implements IProductService {
         long total = productMapper.countByExample(example);
         if (!list.isEmpty()){
             for (Product product : list) {
-                product.getDesc().replace("\\r\\n", "<br/>").replace("\\t", " ");
+                String s = product.getDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " ");
+                product.setDesc(s);
             }
         }
         response.setPageList(list);
@@ -58,13 +59,14 @@ public class ProductServiceImpl implements IProductService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        product.setDesc(product.getDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
         ProductDetailExample example = new ProductDetailExample();
         ProductDetailExample.Criteria criteria = example.createCriteria();
         criteria.andProductIdEqualTo(productId);
         example.setOrderByClause("`index`, id");
         List<ProductDetail> list = productDetailMapper.selectByExampleWithBLOBs(example);
         for (ProductDetail productDetail : list) {
-            productDetail.getFunctionDesc().replace("\\r\\n", "<br/>").replace("\\t", " ");
+            productDetail.setFunctionDesc(productDetail.getFunctionDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
         }
         product.setDetails(list);
         response.setProduct(product);
