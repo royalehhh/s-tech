@@ -81,6 +81,7 @@ public class ProductServiceImpl implements IProductService {
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
             for (ProductDetail productDetail : list) {
+                productDetail.setProductId(product.getId());
                 productDetailMapper.insert(productDetail);
             }
         }
