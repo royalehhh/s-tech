@@ -1,5 +1,7 @@
 package com.stk.website.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,11 +24,14 @@ public class News implements Serializable {
     /**
      * 发布时间
      */
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     private String content;

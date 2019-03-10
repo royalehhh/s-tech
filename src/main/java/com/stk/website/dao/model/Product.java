@@ -1,5 +1,6 @@
 package com.stk.website.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -43,6 +44,7 @@ public class Product implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     List<ProductDetail> details;

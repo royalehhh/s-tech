@@ -106,6 +106,22 @@ public class WebSiteController {
 
     /**
      * @author Royle.Huang
+     * @date 2019/3/10 11:53
+     * @description: 首页新闻
+     */
+    @PostMapping("/news/home")
+    public PageResponse<News> queryNewsListHome(){
+//        log.info("invoke website queryNewsListByPage request: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+        PageRequest request = new PageRequest();
+        request.setRow(4);
+        request.setPage(1);
+        PageResponse<News> response = newsService.queryNewsListByPage(request);
+        return response;
+    }
+
+    /**
+     * @author Royle.Huang
      * @date 2019/3/2 18:00
      * @description: 视频列表
      */

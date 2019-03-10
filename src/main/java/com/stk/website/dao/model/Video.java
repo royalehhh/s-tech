@@ -1,5 +1,7 @@
 package com.stk.website.dao.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,6 +25,7 @@ public class Video implements Serializable {
     /**
      * 上传时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
