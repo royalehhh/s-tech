@@ -74,7 +74,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public BaseResponse addProduct(Product product) {
         BaseResponse response = new BaseResponse();
         productMapper.insert(product);

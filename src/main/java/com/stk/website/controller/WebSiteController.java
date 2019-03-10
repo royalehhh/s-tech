@@ -14,6 +14,7 @@ import com.stk.website.exception.ServiceException;
 import com.stk.website.service.INewsService;
 import com.stk.website.service.IProductService;
 import com.stk.website.service.IVideoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
+@Slf4j
 public class WebSiteController {
 
     @Autowired
@@ -49,8 +51,9 @@ public class WebSiteController {
      * @description: 产品列表
      */
     @PostMapping("/product/list")
-    public PageResponse<Product> queryProductListByPage(@RequestBody String json) {
-        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+    public PageResponse<Product> queryProductListByPage(PageRequest request) {
+//        log.info("invoke website queryProductListByPage request: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         PageResponse<Product> response = productService.queryProductListByPage(request);
         return response;
     }
@@ -61,8 +64,9 @@ public class WebSiteController {
      * @description: 产品详情
      */
     @PostMapping("/product/detail")
-    public ProductResponse queryProductDetail(@RequestBody String json){
-        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
+    public ProductResponse queryProductDetail(ProductRequest request){
+//        log.info("invoke website queryProductDetail request: " + json);
+//        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
         Integer productId = request.getId();
         if (null == productId){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
@@ -77,8 +81,9 @@ public class WebSiteController {
      * @description: 新闻列表
      */
     @PostMapping("/news/list")
-    public PageResponse<News> queryNewsListByPage(@RequestBody String json){
-        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+    public PageResponse<News> queryNewsListByPage(PageRequest request){
+//        log.info("invoke website queryNewsListByPage request: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         PageResponse<News> response = newsService.queryNewsListByPage(request);
         return response;
     }
@@ -89,8 +94,9 @@ public class WebSiteController {
      * @description: 新闻详情
      */
     @PostMapping("/news/detail")
-    public NewsResponse queryNewsDetail(@RequestBody String json){
-        NewsRequest request = JSONObject.parseObject(json, NewsRequest.class);
+    public NewsResponse queryNewsDetail(NewsRequest request){
+//        log.info("invoke website queryNewsDetail request: " + json);
+//        NewsRequest request = JSONObject.parseObject(json, NewsRequest.class);
         if (request.getId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -104,8 +110,9 @@ public class WebSiteController {
      * @description: 视频列表
      */
     @PostMapping("/video/list")
-    public PageResponse<Video> queryVideoListByPage(@RequestBody String json){
-        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+    public PageResponse<Video> queryVideoListByPage(PageRequest request){
+//        log.info("invoke website queryVideoListByPage request: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         PageResponse<Video> response = videoService.queryVideoListByPage(request);
         return response;
     }
@@ -116,8 +123,9 @@ public class WebSiteController {
      * @description: 视频详情
      */
     @PostMapping("/video/detail")
-    public VideoResponse queryVideoDetail(@RequestBody String json){
-        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
+    public VideoResponse queryVideoDetail(VideoRequest request){
+//        log.info("invoke website queryVideoDetail request: " + json);
+//        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
         Integer id = request.getId();
         if (id == null) {
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);

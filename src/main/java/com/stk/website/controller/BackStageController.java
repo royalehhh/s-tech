@@ -16,6 +16,7 @@ import com.stk.website.exception.ServiceException;
 import com.stk.website.service.INewsService;
 import com.stk.website.service.IProductService;
 import com.stk.website.service.IVideoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/manage")
+@Slf4j
 public class BackStageController {
 
     @Autowired
@@ -38,8 +40,9 @@ public class BackStageController {
      * @description: 删除产品详情
      */
     @DeleteMapping("/product/detail")
-    public BaseResponse deleteProductDetail(@RequestBody String json){
-        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
+    public BaseResponse deleteProductDetail(ProductRequest request){
+//        log.info("invoke deleteProductDetail: " + json);
+//        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
         if (request.getId() == null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -53,8 +56,9 @@ public class BackStageController {
      * @description: 编辑产品详情
      */
     @PostMapping("/product/detail/edit")
-    public BaseResponse editProductDetail(@RequestBody String json){
-        ProductDetail productDetail = JSONObject.parseObject(json, ProductDetail.class);
+    public BaseResponse editProductDetail(ProductDetail productDetail){
+//        log.info("invoke editProductDetail: " + json);
+//        ProductDetail productDetail = JSONObject.parseObject(json, ProductDetail.class);
         if (productDetail.getId() == null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -68,8 +72,9 @@ public class BackStageController {
      * @description: 添加产品详情
      */
     @PostMapping("/product/detail/add")
-    public BaseResponse addProductDetail(@RequestBody String json){
-        ProductDetail productDetail = JSONObject.parseObject(json, ProductDetail.class);
+    public BaseResponse addProductDetail(ProductDetail productDetail){
+//        log.info("invoke addProductDetail: " + json);
+//        ProductDetail productDetail = JSONObject.parseObject(json, ProductDetail.class);
         if (productDetail.getProductId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -83,8 +88,9 @@ public class BackStageController {
      * @description: 删除产品
      */
     @DeleteMapping("/product")
-    public BaseResponse deleteProduct(@RequestBody String json){
-        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
+    public BaseResponse deleteProduct(ProductRequest request){
+//        log.info("invoke deleteProduct: " + json);
+//        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
         if (request.getId() == null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -98,8 +104,9 @@ public class BackStageController {
      * @description: 编辑产品
      */
     @PostMapping("/product/edit")
-    public BaseResponse editProduct(@RequestBody String json){
-        Product product = JSONObject.parseObject(json, Product.class);
+    public BaseResponse editProduct(Product product){
+//        log.info("invoke editProduct: " + json);
+//        Product product = JSONObject.parseObject(json, Product.class);
         if (product.getId() == null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -113,8 +120,9 @@ public class BackStageController {
      * @description: 添加产品
      */
     @PostMapping("/product/add")
-    public BaseResponse addProduct(@RequestBody String json){
-        Product product = JSONObject.parseObject(json, Product.class);
+    public BaseResponse addProduct(Product product){
+//        log.info("invoke addProduct: " + json);
+//        Product product = JSONObject.parseObject(json, Product.class);
         BaseResponse response = productService.addProduct(product);
         return response;
     }
@@ -125,8 +133,9 @@ public class BackStageController {
      * @description: 产品列表
      */
     @PostMapping("/product/list")
-    public PageResponse<Product> queryProductListByPage(@RequestBody String json) {
-        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+    public PageResponse<Product> queryProductListByPage(PageRequest request) {
+//        log.info("invoke queryProductListByPage: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         PageResponse<Product> response = productService.queryProductListByPage(request);
         return response;
     }
@@ -137,8 +146,9 @@ public class BackStageController {
      * @description: 产品详情
      */
     @PostMapping("/product/detail")
-    public ProductResponse queryProductDetail(@RequestBody String json){
-        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
+    public ProductResponse queryProductDetail(ProductRequest request){
+//        log.info("invoke queryProductDetail: " + json);
+//        ProductRequest request = JSONObject.parseObject(json, ProductRequest.class);
         Integer productId = request.getId();
         if (null == productId){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
@@ -153,8 +163,9 @@ public class BackStageController {
      * @description: 新闻列表
      */
     @PostMapping("/news/list")
-    public PageResponse<News> queryNewsListByPage(@RequestBody String json){
-        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+    public PageResponse<News> queryNewsListByPage(PageRequest request){
+//        log.info("invoke queryNewsListByPage: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         PageResponse<News> response = newsService.queryNewsListByPage(request);
         return response;
     }
@@ -165,8 +176,9 @@ public class BackStageController {
      * @description: 新闻详情
      */
     @PostMapping("/news/detail")
-    public NewsResponse queryNewsDetail(@RequestBody String json){
-        NewsRequest request = JSONObject.parseObject(json, NewsRequest.class);
+    public NewsResponse queryNewsDetail(NewsRequest request){
+//        log.info("invoke queryNewsDetail: " + json);
+//        NewsRequest request = JSONObject.parseObject(json, NewsRequest.class);
         if (request.getId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -180,8 +192,9 @@ public class BackStageController {
      * @description: 添加新闻
      */
     @PostMapping("/news/add")
-    public BaseResponse addNews(@RequestBody String json){
-        News news = JSONObject.parseObject(json, News.class);
+    public BaseResponse addNews(News news){
+//        log.info("invoke addNews: " + json);
+//        News news = JSONObject.parseObject(json, News.class);
         news.setCreateTime(new Date());
         news.setUpdateTime(new Date());
         BaseResponse response = newsService.addNews(news);
@@ -194,8 +207,9 @@ public class BackStageController {
      * @description: 编辑新闻
      */
     @PostMapping("/news/edit")
-    public BaseResponse editNews(@RequestBody String json){
-        News news = JSONObject.parseObject(json, News.class);
+    public BaseResponse editNews(News news){
+//        log.info("invoke editNews: " + json);
+//        News news = JSONObject.parseObject(json, News.class);
         if (news.getId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -210,8 +224,9 @@ public class BackStageController {
      * @description: 删除新闻
      */
     @DeleteMapping("/news")
-    public BaseResponse deleteNews(@RequestBody String json){
-        NewsRequest request = JSONObject.parseObject(json, NewsRequest.class);
+    public BaseResponse deleteNews(NewsRequest request){
+//        log.info("invoke deleteNews: " + json);
+//        NewsRequest request = JSONObject.parseObject(json, NewsRequest.class);
         if (request.getId() == null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -225,8 +240,9 @@ public class BackStageController {
      * @description: 视频列表
      */
     @PostMapping("/video/list")
-    public PageResponse<Video> queryVideoListByPage(@RequestBody String json){
-        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+    public PageResponse<Video> queryVideoListByPage(PageRequest request){
+//        log.info("invoke queryVideoListByPage: " + json);
+//        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         PageResponse<Video> response = videoService.queryVideoListByPage(request);
         return response;
     }
@@ -237,8 +253,9 @@ public class BackStageController {
      * @description: 视频详情
      */
     @PostMapping("/video/detail")
-    public VideoResponse queryVideoDetail(@RequestBody String json){
-        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
+    public VideoResponse queryVideoDetail(VideoRequest request){
+//        log.info("invoke queryVideoDetail: " + json);
+//        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
         Integer id = request.getId();
         if (id == null) {
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
@@ -253,8 +270,9 @@ public class BackStageController {
      * @description: 添加视频
      */
     @PostMapping("/video/add")
-    public BaseResponse addVideo(@RequestBody String json){
-        Video video = JSONObject.parseObject(json, Video.class);
+    public BaseResponse addVideo(Video video){
+//        log.info("invoke addVideo: " + json);
+//        Video video = JSONObject.parseObject(json, Video.class);
         BaseResponse response = videoService.addVideo(video);
         return response;
     }
@@ -265,8 +283,9 @@ public class BackStageController {
      * @description: 编辑视频
      */
     @PostMapping("/video/edit")
-    public BaseResponse editVideo(@RequestBody String json){
-        Video video = JSONObject.parseObject(json, Video.class);
+    public BaseResponse editVideo(Video video){
+//        log.info("invoke editVideo: " + json);
+//        Video video = JSONObject.parseObject(json, Video.class);
         if (video.getId() == null) {
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -280,8 +299,9 @@ public class BackStageController {
      * @description: 删除视频
      */
     @DeleteMapping("/video")
-    public BaseResponse deleteVideo(@RequestBody String json){
-        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
+    public BaseResponse deleteVideo(VideoRequest request){
+//        log.info("invoke deleteVideo: " + json);
+//        VideoRequest request = JSONObject.parseObject(json, VideoRequest.class);
         if (request.getId() == null) {
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
