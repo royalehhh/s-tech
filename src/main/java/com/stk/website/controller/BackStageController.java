@@ -136,6 +136,7 @@ public class BackStageController {
     public PageResponse<Product> queryProductListByPage(PageRequest request) {
 //        log.info("invoke queryProductListByPage: " + json);
 //        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+        request.setRow(request.getLimit());
         PageResponse<Product> response = productService.queryProductListByPage(request);
         return response;
     }
@@ -166,6 +167,7 @@ public class BackStageController {
     public PageResponse<News> queryNewsListByPage(PageRequest request){
 //        log.info("invoke queryNewsListByPage: " + json);
 //        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+        request.setRow(request.getLimit());
         PageResponse<News> response = newsService.queryNewsListByPage(request);
         return response;
     }
@@ -243,6 +245,7 @@ public class BackStageController {
     public PageResponse<Video> queryVideoListByPage(PageRequest request){
 //        log.info("invoke queryVideoListByPage: " + json);
 //        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
+        request.setRow(request.getLimit());
         PageResponse<Video> response = videoService.queryVideoListByPage(request);
         return response;
     }

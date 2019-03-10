@@ -3,6 +3,7 @@ package com.stk.website.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.stk.website.comm.ErrorConstant;
 import com.stk.website.comm.Global;
+import com.stk.website.dto.LoginResponse;
 import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.exception.ServiceException;
 import com.stk.website.service.ILoginService;
@@ -28,10 +29,10 @@ public class LoginController {
     ILoginService loginService;
 
     @PostMapping("login")
-    public BaseResponse login(HttpServletRequest request, @RequestBody String json){
-        JSONObject jsonObject = JSONObject.parseObject(json);
-        String name = (String) jsonObject.get("name");
-        String pwd = (String) jsonObject.get("pwd");
+    public LoginResponse login(HttpServletRequest request, String name, String pwd){
+//        JSONObject jsonObject = JSONObject.parseObject(json);
+//        String name = (String) jsonObject.get("name");
+//        String pwd = (String) jsonObject.get("pwd");
 
         if (name==null || "".equals(name)){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
@@ -39,13 +40,7 @@ public class LoginController {
         if (pwd==null || "".equals(pwd)){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
-        BaseResponse response = loginService.login(name, pwd);
-        if (response.getCode() == 0){
-            String token = UUID.randomUUID().toString().replace("-","");
-            Global.tokenMap.put(name, token);
-            request.getSession().setAttribute("token", token);
-            request.getSession().setAttribute("name", name);
-        }
+        LoginResponse response = loginService.login(name, pwd);
         return response;
     }
 }

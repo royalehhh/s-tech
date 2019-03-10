@@ -3,13 +3,16 @@ package com.stk.website.filter;
 import com.stk.website.comm.ErrorConstant;
 import com.stk.website.comm.Global;
 import com.stk.website.exception.ServiceException;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter
+@Slf4j
 public class PermissionFilter implements Filter {
 
     @Override
@@ -20,13 +23,13 @@ public class PermissionFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
         String url = request.getRequestURI();
         if (url.contains("manage")){
-            String token = (String) request.getSession().getAttribute("token");
-//            String token = request.getHeader("token");
-            String userName = (String) request.getSession().getAttribute("name");
-            if (token == null || !token.equals(Global.tokenMap.get(userName))){
-                throw new ServiceException(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
+            String token = request.getParameter("token");
+            if (token == null || !Global.tokenMap.containsValue(token)){
+//                response.sendRedirect("static/admin/html/login.html");
+//                throw new ServiceException(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
             }
             request.getSession().setMaxInactiveInterval(60*60);
         }

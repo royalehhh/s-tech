@@ -1,0 +1,57 @@
+/*分页*/
+			
+			.product_pages {
+				display: inline-flex;
+				float: right;
+				margin: 40px 100px;
+			}
+			.lyb_pages_button {
+				color: #000000;
+				font-size: 14px;
+				display: inline-block;
+				border: 1px #0000006e solid;
+				width: 60px;
+				text-align: center;
+				height: 22px;
+				line-height: 22px;
+				cursor: pointer;
+			}
+			
+			.lyb_pages_button:hover {
+				color: #b57070;
+				font-size: 14px;
+				display: inline-block;
+				border: 1px #0000006e solid;
+				width: 60px;
+				text-align: center;
+				height: 22px;
+				line-height: 22px;
+				cursor: pointer;
+				/*background-color: #d2ad2c;*/
+			}
+			
+			.lyb_pages_button1 {
+				color: #000000;
+				font-size: 14px;
+				display: inline-block;
+				border: 1px #0000006e solid;
+				width: 20px;
+				text-align: center;
+				height: 22px;
+				line-height: 22px;
+				cursor: pointer;
+			}
+			
+			.lyb_pages_button1:hover {
+				color: #b57070;
+				font-size: 14px;
+				display: inline-block;
+				border: 1px #0000006e solid;
+				width: 20px;
+				text-align: center;
+				height: 22px;
+				line-height: 22px;
+				cursor: pointer;
+				/*background-color: #d2ad2c;*/
+			}
+			/*分页*/

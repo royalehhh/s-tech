@@ -1,15 +1,18 @@
 package com.stk.website.service.impl;
 
 import com.stk.website.comm.ErrorConstant;
+import com.stk.website.comm.Global;
 import com.stk.website.dao.mapper.UserMapper;
 import com.stk.website.dao.model.User;
 import com.stk.website.dao.model.UserExample;
+import com.stk.website.dto.LoginResponse;
 import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Royle.Huang
@@ -24,8 +27,8 @@ public class LoginServiceImpl implements ILoginService {
     UserMapper userMapper;
 
     @Override
-    public BaseResponse login(String name, String pwd) {
-        BaseResponse response = new BaseResponse();
+    public LoginResponse login(String name, String pwd) {
+        LoginResponse response = new LoginResponse();
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(name).andPasswordEqualTo(pwd);
@@ -34,6 +37,10 @@ public class LoginServiceImpl implements ILoginService {
             response.setCode(ErrorConstant.USER_NOT_EXIST_CODE);
             response.setMsg(ErrorConstant.USER_NOT_EXIST_MSG);
         }else {
+            String token = UUID.randomUUID().toString().replace("-","");
+            Global.tokenMap.put(name, token);
+            response.setToken(token);
+            response.setUserName(name);
             response.setCode(0);
             response.setMsg("login success");
         }

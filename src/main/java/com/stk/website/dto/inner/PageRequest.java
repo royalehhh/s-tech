@@ -15,6 +15,7 @@ public class PageRequest extends BaseRequest {
     private Integer row;
     /**当前页**/
     private Integer page;
+    private Integer limit;
     private String sort;//排序字段
     private String order;//排序方式
     private String keyWord;//关键字
