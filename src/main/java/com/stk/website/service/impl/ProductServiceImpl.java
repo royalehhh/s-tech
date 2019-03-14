@@ -104,9 +104,11 @@ public class ProductServiceImpl implements IProductService {
         if (list != null && !list.isEmpty()){
             for (ProductDetail productDetail : list) {
                 if (productDetail.getId()==null){
-                    throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
+                    productDetail.setProductId(product.getId());
+                    productDetailMapper.insert(productDetail);
+                }else {
+                    productDetailMapper.updateByPrimaryKeyWithBLOBs(productDetail);
                 }
-                productDetailMapper.updateByPrimaryKeyWithBLOBs(productDetail);
             }
         }
         return response;
