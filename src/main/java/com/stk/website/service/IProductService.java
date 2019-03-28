@@ -29,14 +29,14 @@ public interface IProductService {
      * @date 2019/3/2 15:42
      * @description: 添加商品
      */
-    BaseResponse addProduct(Product product);
+    BaseResponse addProduct(Product product, Integer fileId);
 
     /**
      * @author Royle.Huang
      * @date 2019/3/2 15:54
      * @description: 编辑产品
      */
-    BaseResponse editProduct(Product product);
+    BaseResponse editProduct(Product product, Integer fileId);
 
     /**
      * @author Royle.Huang

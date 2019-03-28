@@ -4,10 +4,8 @@ import com.stk.website.comm.ErrorConstant;
 import com.stk.website.comm.Global;
 import com.stk.website.dao.mapper.ProductDetailMapper;
 import com.stk.website.dao.mapper.ProductMapper;
-import com.stk.website.dao.model.Product;
-import com.stk.website.dao.model.ProductDetail;
-import com.stk.website.dao.model.ProductDetailExample;
-import com.stk.website.dao.model.ProductExample;
+import com.stk.website.dao.mapper.TempFileMapper;
+import com.stk.website.dao.model.*;
 import com.stk.website.dto.HomeProductResponse;
 import com.stk.website.dto.ProductResponse;
 import com.stk.website.dto.inner.BaseResponse;
@@ -19,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -28,6 +27,8 @@ public class ProductServiceImpl implements IProductService {
     ProductMapper productMapper;
     @Autowired
     ProductDetailMapper productDetailMapper;
+    @Autowired
+    TempFileMapper tempFileMapper;
 
     @Override
     public PageResponse<Product> queryProductListByPage(PageRequest request) {
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse addProduct(Product product) {
+    public BaseResponse addProduct(Product product, Integer fileId) {
         BaseResponse response = new BaseResponse();
         productMapper.insert(product);
         List<ProductDetail> list = product.getDetails();
@@ -85,12 +86,13 @@ public class ProductServiceImpl implements IProductService {
                 productDetailMapper.insert(productDetail);
             }
         }
+        tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
     }
 
     @Override
     @Transactional
-    public BaseResponse editProduct(Product product) {
+    public BaseResponse editProduct(Product product, Integer fileId) {
         BaseResponse response = new BaseResponse();
         Product bean = productMapper.selectByPrimaryKey(product.getId());
         if (bean == null){
@@ -98,7 +100,14 @@ public class ProductServiceImpl implements IProductService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
-        product.setCreateTime(bean.getCreateTime());
+        String oldFilePath = bean.getImg();
+        if (fileId != null){
+            TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+            if (tempFile!=null){
+                File file = new File(oldFilePath);
+                file.delete();
+            }
+        }
         productMapper.updateByPrimaryKey(product);
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
@@ -111,6 +120,7 @@ public class ProductServiceImpl implements IProductService {
                 }
             }
         }
+        tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
     }
 
@@ -153,6 +163,12 @@ public class ProductServiceImpl implements IProductService {
         ProductDetailExample.Criteria criteria = example.createCriteria();
         criteria.andProductIdEqualTo(id);
         productDetailMapper.deleteByExample(example);
+        Product bean = productMapper.selectByPrimaryKey(id);
+        if (bean!=null){
+            String oldFilePath = bean.getImg();
+            File file = new File(oldFilePath);
+            file.delete();
+        }
         //删除产品
         productMapper.deleteByPrimaryKey(id);
         return response;

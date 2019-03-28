@@ -2,7 +2,9 @@ package com.stk.website.service.impl;
 
 import com.stk.website.comm.ErrorConstant;
 import com.stk.website.comm.Global;
+import com.stk.website.dao.mapper.TempFileMapper;
 import com.stk.website.dao.mapper.VideoMapper;
+import com.stk.website.dao.model.TempFile;
 import com.stk.website.dao.model.Video;
 import com.stk.website.dao.model.VideoExample;
 import com.stk.website.dto.VideoResponse;
@@ -13,6 +15,7 @@ import com.stk.website.service.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +29,8 @@ public class VideoServiceImpl implements IVideoService {
 
     @Autowired
     VideoMapper videoMapper;
+    @Autowired
+    TempFileMapper tempFileMapper;
 
     @Override
     public PageResponse<Video> queryVideoListByPage(PageRequest request) {
@@ -51,21 +56,30 @@ public class VideoServiceImpl implements IVideoService {
     }
 
     @Override
-    public BaseResponse addVideo(Video video) {
+    public BaseResponse addVideo(Video video, Integer fileId) {
         BaseResponse response = new BaseResponse();
         video.setCreateTime(new Date());
         videoMapper.insert(video);
+        tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
     }
 
     @Override
-    public BaseResponse editVideo(Video video) {
+    public BaseResponse editVideo(Video video, Integer fileId) {
         BaseResponse response = new BaseResponse();
         Video bean = videoMapper.selectByPrimaryKey(video.getId());
         if (bean==null){
             response.setCode(ErrorConstant.DATABASE_NO_DATA_CODE);
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
+        }
+        String oldFilePath = bean.getUrl();
+        if (fileId != null){
+            TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+            if (tempFile!=null){
+                File file = new File(oldFilePath);
+                file.delete();
+            }
         }
         video.setCreateTime(bean.getCreateTime());
         videoMapper.updateByPrimaryKey(video);
@@ -75,6 +89,12 @@ public class VideoServiceImpl implements IVideoService {
     @Override
     public BaseResponse deleteVideo(Integer id) {
         BaseResponse response = new BaseResponse();
+        Video bean = videoMapper.selectByPrimaryKey(id);
+        if (bean!=null){
+            String oldFilePath = bean.getUrl();
+            File file = new File(oldFilePath);
+            file.delete();
+        }
         videoMapper.deleteByPrimaryKey(id);
         return response;
 

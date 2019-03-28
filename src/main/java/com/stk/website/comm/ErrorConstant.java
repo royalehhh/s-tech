@@ -14,6 +14,10 @@ public class ErrorConstant {
     //请求错误
     public static Integer PARAM_INCOMPLETE_CODE= 500000;
     public static String PARAM_INCOMPLETE_MSG= "param incomplete";
+
+    public static Integer FILE_TOO_LARGE_CODE= 500001;
+    public static String FILE_TOO_LARGE_MSG= "the file is too large!!!";
+
     //无访问权限
     public static Integer NO_PERMISSION_CODE= 501000;
     public static String NO_PERMISSION_MSG= "permission denied";

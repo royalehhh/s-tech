@@ -26,14 +26,14 @@ public interface INewsService {
      * @date 2019/3/2 16:13
      * @description: 添加新闻
      */
-    BaseResponse addNews(News news);
+    BaseResponse addNews(News news, Integer fileId);
 
     /**
      * @author Royle.Huang
      * @date 2019/3/2 16:15
      * @description: 编辑新闻
      */
-    BaseResponse editNews(News news);
+    BaseResponse editNews(News news, Integer fileId);
 
     /**
      * @author Royle.Huang

@@ -26,14 +26,14 @@ public interface IVideoService {
      * @date 2019/3/3 9:46
      * @description: 添加视频
      */
-    BaseResponse addVideo(Video video);
+    BaseResponse addVideo(Video video, Integer fileId);
 
     /**
      * @author Royle.Huang
      * @date 2019/3/3 9:49
      * @description: 编辑视频信息
      */
-    BaseResponse editVideo(Video video);
+    BaseResponse editVideo(Video video, Integer fileId);
 
     /**
      * @author Royle.Huang
