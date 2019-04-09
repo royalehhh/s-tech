@@ -10,4 +10,8 @@ public class IndexController {
     public String index() {
         return "/html/index.html";
     }
+
+    @RequestMapping("/home")
+    public String home(){
+        return "/admin/html/login.html"; }
 }
