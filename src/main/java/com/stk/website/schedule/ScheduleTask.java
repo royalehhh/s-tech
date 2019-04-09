@@ -31,7 +31,10 @@ public class ScheduleTask {
             for (TempFile tempFile : list) {
                 File file = new File(tempFile.getFilePath());
                 log.info("start delete file: " +tempFile.getFilePath());
-                file.delete();
+                if (file.exists()){
+                    file.delete();
+                    log.info("not exist delete file: " +tempFile.getFilePath());
+                }
                 log.info("end delete file: " +tempFile.getFilePath());
                 tempFileMapper.deleteByPrimaryKey(tempFile.getId());
             }
