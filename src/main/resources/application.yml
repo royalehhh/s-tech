@@ -7,12 +7,17 @@ spring:
 #    url: jdbc:mysql://39.108.56.72:3306/s-tech?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong&useSSL=false
 #    username: nchuagong
 #    password: nchuagongdb
-    url: jdbc:mysql://23.106.137.37:3306/s-tech?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong&useSSL=false
+    url: jdbc:mysql://47.98.180.20:3306/s-tech?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong&useSSL=false
     username: root
-    password: hry123
+    password: stkdb
     driver-class-name: com.mysql.jdbc.Driver
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+path:
+  upload:
+    folder: /home/files/

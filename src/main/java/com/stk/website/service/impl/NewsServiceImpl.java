@@ -3,8 +3,10 @@ package com.stk.website.service.impl;
 import com.stk.website.comm.ErrorConstant;
 import com.stk.website.comm.Global;
 import com.stk.website.dao.mapper.NewsMapper;
+import com.stk.website.dao.mapper.TempFileMapper;
 import com.stk.website.dao.model.News;
 import com.stk.website.dao.model.NewsExample;
+import com.stk.website.dao.model.TempFile;
 import com.stk.website.dto.NewsResponse;
 import com.stk.website.dto.inner.BaseResponse;
 import com.stk.website.dto.inner.PageRequest;
@@ -13,6 +15,7 @@ import com.stk.website.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class NewsServiceImpl implements INewsService {
 
     @Autowired
     NewsMapper newsMapper;
+    @Autowired
+    TempFileMapper tempFileMapper;
 
     @Override
     public PageResponse<News> queryNewsListByPage(PageRequest request) {
@@ -58,7 +63,7 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public BaseResponse addNews(News news) {
+    public BaseResponse addNews(News news, Integer fileId) {
         BaseResponse response = new BaseResponse();
         String info = "";
         if (news.getContent().length()>100){
@@ -69,17 +74,26 @@ public class NewsServiceImpl implements INewsService {
         news.setIntroduction(info);
         news.setCreateTime(new Date());
         newsMapper.insert(news);
+        tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
     }
 
     @Override
-    public BaseResponse editNews(News news) {
+    public BaseResponse editNews(News news, Integer fileId) {
         BaseResponse response = new BaseResponse();
         News bean = newsMapper.selectByPrimaryKey(news.getId());
         if (bean==null){
             response.setCode(ErrorConstant.DATABASE_NO_DATA_CODE);
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
+        }
+        String oldFilePath = bean.getImg();
+        if (fileId != null){
+            TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+            if (tempFile!=null){
+                File file = new File(oldFilePath);
+                file.delete();
+            }
         }
         String info = "";
         if (news.getContent().length()>100){
@@ -90,12 +104,19 @@ public class NewsServiceImpl implements INewsService {
         news.setIntroduction(info);
         news.setCreateTime(bean.getCreateTime());
         newsMapper.updateByPrimaryKeyWithBLOBs(news);
+        tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
     }
 
     @Override
     public BaseResponse deleteNews(Integer id) {
         BaseResponse response = new BaseResponse();
+        News bean = newsMapper.selectByPrimaryKey(id);
+        if (bean!=null){
+            String oldFilePath = bean.getImg();
+            File file = new File(oldFilePath);
+            file.delete();
+        }
         newsMapper.deleteByPrimaryKey(id);
         return response;
     }
