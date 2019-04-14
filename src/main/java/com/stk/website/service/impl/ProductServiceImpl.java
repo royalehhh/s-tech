@@ -18,6 +18,7 @@ import com.stk.website.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -107,6 +108,9 @@ public class ProductServiceImpl implements IProductService {
                     productDetail.setProductId(product.getId());
                     productDetailMapper.insert(productDetail);
                 }else {
+                    if (StringUtils.isEmpty(productDetail.getFunctionName())&& StringUtils.isEmpty(productDetail.getFunctionDesc())){
+                        productDetailMapper.deleteByPrimaryKey(productDetail.getId());
+                    }
                     productDetailMapper.updateByPrimaryKeyWithBLOBs(productDetail);
                 }
             }
