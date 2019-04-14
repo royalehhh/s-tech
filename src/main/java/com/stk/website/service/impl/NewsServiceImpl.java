@@ -13,6 +13,7 @@ import com.stk.website.dto.inner.PageRequest;
 import com.stk.website.dto.inner.PageResponse;
 import com.stk.website.service.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -27,13 +28,16 @@ public class NewsServiceImpl implements INewsService {
     @Autowired
     TempFileMapper tempFileMapper;
 
+    @Value("${path.upload.folder}")
+    private String uploadFolder;
+
     @Override
     public PageResponse<News> queryNewsListByPage(PageRequest request) {
         PageResponse<News> response = new PageResponse<>();
         NewsExample example = new NewsExample();
         example.setOffset(request.getLimitStart());
         example.setLimit(request.getRow());
-        example.setOrderByClause("id");
+        example.setOrderByClause("id desc");
         List<News> list = newsMapper.selectByExampleWithBLOBs(example);
         long total = newsMapper.countByExample(example);
         if (!list.isEmpty()){
@@ -91,7 +95,7 @@ public class NewsServiceImpl implements INewsService {
         if (fileId != null){
             TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
             if (tempFile!=null){
-                File file = new File(oldFilePath);
+                File file = new File(uploadFolder+oldFilePath);
                 file.delete();
             }
         }
@@ -114,7 +118,7 @@ public class NewsServiceImpl implements INewsService {
         News bean = newsMapper.selectByPrimaryKey(id);
         if (bean!=null){
             String oldFilePath = bean.getImg();
-            File file = new File(oldFilePath);
+            File file = new File(uploadFolder+oldFilePath);
             file.delete();
         }
         newsMapper.deleteByPrimaryKey(id);

@@ -20,6 +20,7 @@ import com.stk.website.service.IVideoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -49,6 +51,8 @@ public class BackStageController {
 
     @Value("${path.upload.folder}")
     private String uploadFolder;
+    @Value("${path.prefix.folder}")
+    private String filePrefix;
 
     /**
      * @Author royle.huang
@@ -70,7 +74,7 @@ public class BackStageController {
         }
         String oldName = file.getOriginalFilename();
         String fileName = System.currentTimeMillis()+oldName.substring(oldName.lastIndexOf("."));
-        String filePath = uploadFolder + fileName;
+        String filePath = uploadFolder + filePrefix +fileName;
         File newFile = new File(filePath);
         try {
             // Get the file and save it somewhere
@@ -85,7 +89,7 @@ public class BackStageController {
             return new BaseResponse(500002, "文件上传失败");
         }
         //插入数据库
-        FileResponse response = fileService.addFile(filePath);
+        FileResponse response = fileService.addFile(filePrefix+fileName);
         return response;
     }
 
@@ -159,9 +163,11 @@ public class BackStageController {
      * @description: 编辑产品
      */
     @PostMapping("/product/edit")
-    public BaseResponse editProduct(Product product, Integer fileId){
-//        log.info("invoke editProduct: " + json);
-//        Product product = JSONObject.parseObject(json, Product.class);
+    public BaseResponse editProduct(@RequestBody String json){
+        log.info("invoke editProduct: " + json);
+        Product product = JSONObject.parseObject(json, Product.class);
+        JSONObject object = JSONObject.parseObject(json);
+        Integer fileId = object.getInteger("fileId");
         if (product.getId() == null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
@@ -175,9 +181,11 @@ public class BackStageController {
      * @description: 添加产品
      */
     @PostMapping("/product/add")
-    public BaseResponse addProduct(Product product, Integer fileId){
-//        log.info("invoke addProduct: " + json);
-//        Product product = JSONObject.parseObject(json, Product.class);
+    public BaseResponse addProduct(@RequestBody String json){
+        log.info("invoke addProduct: " + json);
+        Product product = JSONObject.parseObject(json, Product.class);
+        JSONObject object = JSONObject.parseObject(json);
+        Integer fileId = object.getInteger("fileId");
         BaseResponse response = productService.addProduct(product,fileId);
         return response;
     }
@@ -188,7 +196,7 @@ public class BackStageController {
      * @description: 产品列表
      */
     @PostMapping("/product/list")
-    public PageResponse<Product> queryProductListByPage(PageRequest request) {
+    public BaseResponse queryProductListByPage(PageRequest request) {
 //        log.info("invoke queryProductListByPage: " + json);
 //        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         request.setRow(request.getLimit());
@@ -219,7 +227,7 @@ public class BackStageController {
      * @description: 新闻列表
      */
     @PostMapping("/news/list")
-    public PageResponse<News> queryNewsListByPage(PageRequest request){
+    public BaseResponse queryNewsListByPage(PageRequest request){
 //        log.info("invoke queryNewsListByPage: " + json);
 //        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         request.setRow(request.getLimit());
@@ -297,7 +305,7 @@ public class BackStageController {
      * @description: 视频列表
      */
     @PostMapping("/video/list")
-    public PageResponse<Video> queryVideoListByPage(PageRequest request){
+    public BaseResponse queryVideoListByPage(PageRequest request){
 //        log.info("invoke queryVideoListByPage: " + json);
 //        PageRequest request = JSONObject.parseObject(json, PageRequest.class);
         request.setRow(request.getLimit());

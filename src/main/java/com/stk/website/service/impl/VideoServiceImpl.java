@@ -13,6 +13,7 @@ import com.stk.website.dto.inner.PageRequest;
 import com.stk.website.dto.inner.PageResponse;
 import com.stk.website.service.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -31,6 +32,9 @@ public class VideoServiceImpl implements IVideoService {
     VideoMapper videoMapper;
     @Autowired
     TempFileMapper tempFileMapper;
+
+    @Value("${path.upload.folder}")
+    private String uploadFolder;
 
     @Override
     public PageResponse<Video> queryVideoListByPage(PageRequest request) {
@@ -77,7 +81,7 @@ public class VideoServiceImpl implements IVideoService {
         if (fileId != null){
             TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
             if (tempFile!=null){
-                File file = new File(oldFilePath);
+                File file = new File(uploadFolder+oldFilePath);
                 file.delete();
             }
         }
@@ -92,7 +96,7 @@ public class VideoServiceImpl implements IVideoService {
         Video bean = videoMapper.selectByPrimaryKey(id);
         if (bean!=null){
             String oldFilePath = bean.getUrl();
-            File file = new File(oldFilePath);
+            File file = new File(uploadFolder+oldFilePath);
             file.delete();
         }
         videoMapper.deleteByPrimaryKey(id);

@@ -27,8 +27,10 @@ public class ExceptionHandler {
         try {
             res = point.proceed();
         } catch (ServiceException e) {
+            e.printStackTrace();
             res = new BaseResponse(e.getCode(), e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             res = new BaseResponse(500, "系统错误");
         }
         return res;

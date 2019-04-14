@@ -14,11 +14,13 @@ import com.stk.website.dto.inner.PageResponse;
 import com.stk.website.exception.ServiceException;
 import com.stk.website.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,13 +33,16 @@ public class ProductServiceImpl implements IProductService {
     @Autowired
     TempFileMapper tempFileMapper;
 
+    @Value("${path.upload.folder}")
+    private String uploadFolder;
+
     @Override
     public PageResponse<Product> queryProductListByPage(PageRequest request) {
         PageResponse<Product> response = new PageResponse<>();
         ProductExample example = new ProductExample();
         example.setOffset(request.getLimitStart());
         example.setLimit(request.getRow());
-        example.setOrderByClause("id");
+        example.setOrderByClause("id desc");
         List<Product> list = productMapper.selectByExample(example);
         long total = productMapper.countByExample(example);
         if (!list.isEmpty()){
@@ -79,12 +84,13 @@ public class ProductServiceImpl implements IProductService {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse addProduct(Product product, Integer fileId) {
         BaseResponse response = new BaseResponse();
+        product.setCreateTime(new Date());
         productMapper.insert(product);
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
             for (ProductDetail productDetail : list) {
                 productDetail.setProductId(product.getId());
-                productDetailMapper.insert(productDetail);
+                productDetailMapper.insertSelective(productDetail);
             }
         }
         tempFileMapper.deleteByPrimaryKey(fileId);
@@ -105,11 +111,11 @@ public class ProductServiceImpl implements IProductService {
         if (fileId != null){
             TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
             if (tempFile!=null){
-                File file = new File(oldFilePath);
+                File file = new File(uploadFolder+oldFilePath);
                 file.delete();
             }
         }
-        productMapper.updateByPrimaryKey(product);
+        productMapper.updateByPrimaryKeySelective(product);
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
             for (ProductDetail productDetail : list) {
@@ -170,7 +176,7 @@ public class ProductServiceImpl implements IProductService {
         Product bean = productMapper.selectByPrimaryKey(id);
         if (bean!=null){
             String oldFilePath = bean.getImg();
-            File file = new File(oldFilePath);
+            File file = new File(uploadFolder+oldFilePath);
             file.delete();
         }
         //删除产品
@@ -185,6 +191,9 @@ public class ProductServiceImpl implements IProductService {
         ProductExample.Criteria criteria = example.createCriteria();
         criteria.andShowHomeEqualTo(1);
         List<Product> list = productMapper.selectByExample(example);
+        if (list.size()>4){
+            list= list.subList(0,4);
+        }
         response.setProducts(list);
         return response;
     }
