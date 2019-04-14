@@ -20,4 +20,4 @@ mybatis:
 
 path:
   upload:
-    folder: /home/files/
+    folder: C:/home/files/

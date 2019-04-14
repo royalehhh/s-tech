@@ -57,6 +57,10 @@ public class BackStageController {
      **/
     @PostMapping("/upload")
     public BaseResponse uploadFiles(@RequestParam("file") MultipartFile file){
+        File folder = new File(uploadFolder);
+        if (!folder.exists()){
+            folder.mkdirs();
+        }
         if (file.isEmpty()) {
             return new BaseResponse(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }

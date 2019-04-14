@@ -1,3 +1,0 @@
-$(function() {
-	$(".top1").html('<div class="body_1182"><div class="logo"><a href="index.html"><img src="../img/header1/top_logo.png" /></a></div><div class="top_right"><img src="../img/header1/xl.jpg"  class="xtp"/> &nbsp;<img src="../img/header1/wb.jpg" class="xtp"/> &nbsp;<span id="wx2vm" style="position:relative;"><img src="../img/header1/wx.jpg" id="wx2vm" class="xtp"/><div id="2vm" style=" display:none; position:absolute; top:25px; left:-30px;"><img src="../img/header1/top_ewm.jpg" width="90"/></div></span>&nbsp;&nbsp;&nbsp;<a href="index.html">首页</a><div class="top_right2" style="padding-top:7px;"></div></div></div>');
-})
