@@ -217,7 +217,7 @@ public class BackStageController {
         if (null == productId){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
-        ProductResponse response = productService.queryProductDetail(productId);
+        ProductResponse response = productService.queryProductDetail(productId, false);
         return response;
     }
 
@@ -247,7 +247,7 @@ public class BackStageController {
         if (request.getId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
-        NewsResponse response = newsService.queryNewsDetail(request.getId());
+        NewsResponse response = newsService.queryNewsDetail(request.getId(), false);
         return response;
     }
 

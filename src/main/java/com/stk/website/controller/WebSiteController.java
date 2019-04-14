@@ -71,7 +71,7 @@ public class WebSiteController {
         if (null == productId){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
-        ProductResponse response = productService.queryProductDetail(productId);
+        ProductResponse response = productService.queryProductDetail(productId, true);
         return response;
     }
 
@@ -100,7 +100,7 @@ public class WebSiteController {
         if (request.getId()==null){
             throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
         }
-        NewsResponse response = newsService.queryNewsDetail(request.getId());
+        NewsResponse response = newsService.queryNewsDetail(request.getId(), true);
         return response;
     }
 

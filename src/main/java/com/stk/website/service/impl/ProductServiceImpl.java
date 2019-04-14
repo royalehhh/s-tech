@@ -58,7 +58,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ProductResponse queryProductDetail(Integer productId) {
+    public ProductResponse queryProductDetail(Integer productId, boolean web) {
         ProductResponse response = new ProductResponse();
         Product product = productMapper.selectByPrimaryKey(productId);
         if (product == null){
@@ -66,14 +66,14 @@ public class ProductServiceImpl implements IProductService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
-        product.setDesc(product.getDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
+        if (web) product.setDesc(product.getDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
         ProductDetailExample example = new ProductDetailExample();
         ProductDetailExample.Criteria criteria = example.createCriteria();
         criteria.andProductIdEqualTo(productId);
         example.setOrderByClause("`index`, id");
         List<ProductDetail> list = productDetailMapper.selectByExampleWithBLOBs(example);
         for (ProductDetail productDetail : list) {
-            productDetail.setFunctionDesc(productDetail.getFunctionDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
+            if (web) productDetail.setFunctionDesc(productDetail.getFunctionDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
         }
         product.setDetails(list);
         response.setProduct(product);

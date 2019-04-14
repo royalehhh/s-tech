@@ -52,7 +52,7 @@ public class NewsServiceImpl implements INewsService {
     }
 
     @Override
-    public NewsResponse queryNewsDetail(Integer id) {
+    public NewsResponse queryNewsDetail(Integer id, boolean web) {
         NewsResponse response = new NewsResponse();
         News news = newsMapper.selectByPrimaryKey(id);
         if (news==null){
@@ -60,8 +60,10 @@ public class NewsServiceImpl implements INewsService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
-        news.setContent(news.getContent().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
-        news.setIntroduction(news.getIntroduction().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
+        if (web){
+            news.setContent(news.getContent().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
+            news.setIntroduction(news.getIntroduction().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
+        }
         response.setNews(news);
         return response;
     }

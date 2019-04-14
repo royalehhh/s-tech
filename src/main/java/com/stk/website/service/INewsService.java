@@ -19,7 +19,7 @@ public interface INewsService {
      * @date 2019/3/2 15:28
      * @description: 查询新闻详情
      */
-    NewsResponse queryNewsDetail(Integer id);
+    NewsResponse queryNewsDetail(Integer id, boolean web);
 
     /**
      * @author Royle.Huang

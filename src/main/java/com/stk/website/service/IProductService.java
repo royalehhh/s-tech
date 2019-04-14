@@ -22,7 +22,7 @@ public interface IProductService {
      * @date 2019/3/2 11:55
      * @description: 产品详情
      */
-    ProductResponse queryProductDetail(Integer productId);
+    ProductResponse queryProductDetail(Integer productId, boolean web);
 
     /**
      * @author Royle.Huang
