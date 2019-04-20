@@ -53,6 +53,8 @@ public class BackStageController {
     private String uploadFolder;
     @Value("${path.prefix.folder}")
     private String filePrefix;
+    @Value("${path.prefix.url}")
+    private String urlPrefix;
 
     /**
      * @Author royle.huang
@@ -186,6 +188,9 @@ public class BackStageController {
         Product product = JSONObject.parseObject(json, Product.class);
         JSONObject object = JSONObject.parseObject(json);
         Integer fileId = object.getInteger("fileId");
+        if (fileId==null){
+            return new BaseResponse(400001, "产品图片未上传");
+        }
         BaseResponse response = productService.addProduct(product,fileId);
         return response;
     }
@@ -260,6 +265,9 @@ public class BackStageController {
     public BaseResponse addNews(News news, Integer fileId){
 //        log.info("invoke addNews: " + json);
 //        News news = JSONObject.parseObject(json, News.class);
+        if (fileId==null){
+            throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
+        }
         news.setCreateTime(new Date());
         news.setUpdateTime(new Date());
         BaseResponse response = newsService.addNews(news, fileId);
@@ -339,6 +347,9 @@ public class BackStageController {
     public BaseResponse addVideo(Video video, Integer fileId){
 //        log.info("invoke addVideo: " + json);
 //        Video video = JSONObject.parseObject(json, Video.class);
+        if (fileId==null) {
+            throw new ServiceException(ErrorConstant.PARAM_INCOMPLETE_CODE, ErrorConstant.PARAM_INCOMPLETE_MSG);
+        }
         BaseResponse response = videoService.addVideo(video, fileId);
         return response;
     }

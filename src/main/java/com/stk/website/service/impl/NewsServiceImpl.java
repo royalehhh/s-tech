@@ -30,6 +30,8 @@ public class NewsServiceImpl implements INewsService {
 
     @Value("${path.upload.folder}")
     private String uploadFolder;
+    @Value("${path.prefix.url}")
+    private String urlPrefix;
 
     @Override
     public PageResponse<News> queryNewsListByPage(PageRequest request) {
@@ -43,6 +45,7 @@ public class NewsServiceImpl implements INewsService {
         if (!list.isEmpty()){
             for (News news : list) {
                 news.setIntroduction(news.getIntroduction().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
+                news.setImg(urlPrefix+news.getImg());
             }
         }
         response.setPageList(list);
@@ -60,6 +63,7 @@ public class NewsServiceImpl implements INewsService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        news.setImg(urlPrefix+news.getImg());
         if (web){
             news.setContent(news.getContent().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
             news.setIntroduction(news.getIntroduction().replace(System.lineSeparator(),"<br/>").replace("\t", " "));
@@ -73,12 +77,14 @@ public class NewsServiceImpl implements INewsService {
         BaseResponse response = new BaseResponse();
         String info = "";
         if (news.getContent().length()>100){
-            info = news.getContent().substring(100);
+            info = news.getContent().substring(0,100);
         }else {
             info = news.getContent();
         }
         news.setIntroduction(info);
         news.setCreateTime(new Date());
+        TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+        news.setImg(tempFile.getFilePath());
         newsMapper.insert(news);
         tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
@@ -93,9 +99,13 @@ public class NewsServiceImpl implements INewsService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        if (news.getImg().contains(urlPrefix)){
+            news.setImg(news.getImg().replace(urlPrefix,""));
+        }
         String oldFilePath = bean.getImg();
         if (fileId != null){
             TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+            news.setImg(tempFile.getFilePath());
             if (tempFile!=null){
                 File file = new File(uploadFolder+oldFilePath);
                 file.delete();
@@ -103,7 +113,7 @@ public class NewsServiceImpl implements INewsService {
         }
         String info = "";
         if (news.getContent().length()>100){
-            info = news.getContent().substring(100);
+            info = news.getContent().substring(0,100);
         }else {
             info = news.getContent();
         }

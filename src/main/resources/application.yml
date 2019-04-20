@@ -8,6 +8,10 @@ spring:
     username: root
     password: stkdb
     driver-class-name: com.mysql.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10000000000
+      max-request-size: 10000000000
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -17,6 +21,8 @@ mybatis:
 
 path:
   upload:
-    folder: C:/home/
+    folder: /home/
   prefix:
     folder: files/
+    url: http://47.98.180.20/
+

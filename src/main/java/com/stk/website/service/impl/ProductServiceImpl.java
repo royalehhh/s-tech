@@ -35,6 +35,8 @@ public class ProductServiceImpl implements IProductService {
 
     @Value("${path.upload.folder}")
     private String uploadFolder;
+    @Value("${path.prefix.url}")
+    private String urlPrefix;
 
     @Override
     public PageResponse<Product> queryProductListByPage(PageRequest request) {
@@ -49,6 +51,7 @@ public class ProductServiceImpl implements IProductService {
             for (Product product : list) {
                 String s = product.getDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " ");
                 product.setDesc(s);
+                product.setImg(urlPrefix+product.getImg());
             }
         }
         response.setPageList(list);
@@ -66,6 +69,7 @@ public class ProductServiceImpl implements IProductService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        product.setImg(urlPrefix+product.getImg());
         if (web) product.setDesc(product.getDesc().replace(System.lineSeparator(), "<br/>").replace("\t", " "));
         ProductDetailExample example = new ProductDetailExample();
         ProductDetailExample.Criteria criteria = example.createCriteria();
@@ -85,6 +89,8 @@ public class ProductServiceImpl implements IProductService {
     public BaseResponse addProduct(Product product, Integer fileId) {
         BaseResponse response = new BaseResponse();
         product.setCreateTime(new Date());
+        TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+        product.setImg(tempFile.getFilePath());
         productMapper.insert(product);
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
@@ -108,12 +114,14 @@ public class ProductServiceImpl implements IProductService {
             return response;
         }
         String oldFilePath = bean.getImg();
+        if (product.getImg().contains(urlPrefix)){
+            product.setImg(product.getImg().replace(urlPrefix,""));
+        }
         if (fileId != null){
             TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
-            if (tempFile!=null){
-                File file = new File(uploadFolder+oldFilePath);
-                file.delete();
-            }
+            product.setImg(tempFile.getFilePath());
+            File file = new File(uploadFolder+oldFilePath);
+            file.delete();
         }
         productMapper.updateByPrimaryKeySelective(product);
         List<ProductDetail> list = product.getDetails();
@@ -193,6 +201,9 @@ public class ProductServiceImpl implements IProductService {
         List<Product> list = productMapper.selectByExample(example);
         if (list.size()>4){
             list= list.subList(0,4);
+        }
+        for (Product product : list) {
+            product.setImg(urlPrefix+product.getImg());
         }
         response.setProducts(list);
         return response;

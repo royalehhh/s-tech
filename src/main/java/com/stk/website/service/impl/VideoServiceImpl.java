@@ -35,6 +35,8 @@ public class VideoServiceImpl implements IVideoService {
 
     @Value("${path.upload.folder}")
     private String uploadFolder;
+    @Value("${path.prefix.url}")
+    private String urlPrefix;
 
     @Override
     public PageResponse<Video> queryVideoListByPage(PageRequest request) {
@@ -44,6 +46,9 @@ public class VideoServiceImpl implements IVideoService {
         example.setLimit(request.getRow());
         example.setOrderByClause("create_time");
         List<Video> list = videoMapper.selectByExample(example);
+        for (Video video : list) {
+            video.setUrl(urlPrefix+video.getUrl());
+        }
         long total = videoMapper.countByExample(example);
         response.setPageList(list);
         response.setTotalCount(total);
@@ -55,6 +60,7 @@ public class VideoServiceImpl implements IVideoService {
     public VideoResponse queryVideoDetail(Integer id) {
         VideoResponse response = new VideoResponse();
         Video video = videoMapper.selectByPrimaryKey(id);
+        video.setUrl(urlPrefix+video.getUrl());
         response.setVideo(video);
         return response;
     }
@@ -63,6 +69,8 @@ public class VideoServiceImpl implements IVideoService {
     public BaseResponse addVideo(Video video, Integer fileId) {
         BaseResponse response = new BaseResponse();
         video.setCreateTime(new Date());
+        TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
+        video.setUrl(tempFile.getFilePath());
         videoMapper.insert(video);
         tempFileMapper.deleteByPrimaryKey(fileId);
         return response;
@@ -77,13 +85,15 @@ public class VideoServiceImpl implements IVideoService {
             response.setMsg(ErrorConstant.DATABASE_NO_DATA_MSG);
             return response;
         }
+        if (video.getUrl().contains(urlPrefix)){
+            video.setUrl(video.getUrl().replace(urlPrefix, ""));
+        }
         String oldFilePath = bean.getUrl();
         if (fileId != null){
             TempFile tempFile = tempFileMapper.selectByPrimaryKey(fileId);
-            if (tempFile!=null){
-                File file = new File(uploadFolder+oldFilePath);
-                file.delete();
-            }
+            video.setUrl(tempFile.getFilePath());
+            File file = new File(uploadFolder+oldFilePath);
+            file.delete();
         }
         video.setCreateTime(bean.getCreateTime());
         videoMapper.updateByPrimaryKey(video);

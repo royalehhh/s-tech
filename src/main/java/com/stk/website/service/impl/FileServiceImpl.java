@@ -5,6 +5,7 @@ import com.stk.website.dao.model.TempFile;
 import com.stk.website.dto.FileResponse;
 import com.stk.website.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,12 +19,16 @@ public class FileServiceImpl implements IFileService {
     @Autowired
     private TempFileMapper tempFileMapper;
 
+    @Value("${path.prefix.url}")
+    private String urlPrefix;
+
     @Override
     public FileResponse addFile(String filePath) {
         FileResponse response = new FileResponse();
         TempFile tempFile = new TempFile();
         tempFile.setFilePath(filePath);
         tempFileMapper.insert(tempFile);
+        tempFile.setFilePath(urlPrefix+filePath);
         response.setTempFile(tempFile);
         return response;
     }
