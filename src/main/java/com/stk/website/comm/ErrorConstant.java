@@ -20,6 +20,6 @@ public class ErrorConstant {
 
     //无访问权限
     public static Integer NO_PERMISSION_CODE= 501000;
-    public static String NO_PERMISSION_MSG= "permission denied";
+    public static String NO_PERMISSION_MSG= "请登录后操作！！！";
 
 }

@@ -44,7 +44,7 @@ public class QuartzConfiguration {
     public CronTriggerFactoryBean cronJobTrigger(MethodInvokingJobDetailFactoryBean jobDetail) {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(jobDetail.getObject());
-        trigger.setCronExpression("* 0 3 * * ? *");// 初始时的cron表达式
+        trigger.setCronExpression("0 0 3 * * ? *");// 初始时的cron表达式
         trigger.setName("srd-deleteTempFile");// trigger的name
         return trigger;
 

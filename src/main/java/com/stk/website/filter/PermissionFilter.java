@@ -28,8 +28,9 @@ public class PermissionFilter implements Filter {
         if (url.contains("manage")){
             String token = request.getParameter("token");
             if (token == null || !Global.tokenMap.containsValue(token)){
-//                response.sendRedirect("/home");
-//                return;
+                response.setStatus(ErrorConstant.NO_PERMISSION_CODE);
+                response.sendRedirect("/permission");
+                return;
             }
             request.getSession().setMaxInactiveInterval(60*60);
         }

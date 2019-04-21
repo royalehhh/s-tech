@@ -43,4 +43,9 @@ public class LoginController {
         LoginResponse response = loginService.login(name, pwd);
         return response;
     }
+
+    @RequestMapping("/permission")
+    public BaseResponse noPermission(){
+        return new BaseResponse(ErrorConstant.NO_PERMISSION_CODE, ErrorConstant.NO_PERMISSION_MSG);
+    }
 }
