@@ -4,7 +4,7 @@ public class ErrorConstant {
 
     //不存在
     public static Integer USER_NOT_EXIST_CODE= 404000;
-    public static String USER_NOT_EXIST_MSG= "user not exist";
+    public static String USER_NOT_EXIST_MSG= "用户名或密码错误";
     public static Integer DATABASE_NO_DATA_CODE= 404001;
     public static String DATABASE_NO_DATA_MSG= "database no data";
 
