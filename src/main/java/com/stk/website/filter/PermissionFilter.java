@@ -25,15 +25,15 @@ public class PermissionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String url = request.getRequestURI();
-        if (url.contains("manage")){
-            String token = request.getParameter("token");
-            if (token == null || !Global.tokenMap.containsValue(token)){
-                response.setStatus(ErrorConstant.NO_PERMISSION_CODE);
-                response.sendRedirect("/permission");
-                return;
-            }
-            request.getSession().setMaxInactiveInterval(60*60);
-        }
+//        if (url.contains("manage")){
+//            String token = request.getParameter("token");
+//            if (token == null || !Global.tokenMap.containsValue(token)){
+//                response.setStatus(ErrorConstant.NO_PERMISSION_CODE);
+//                response.sendRedirect("/permission");
+//                return;
+//            }
+//            request.getSession().setMaxInactiveInterval(60*60);
+//        }
         filterChain.doFilter(request, servletResponse);
     }
 

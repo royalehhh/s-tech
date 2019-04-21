@@ -127,8 +127,8 @@ public class ProductServiceImpl implements IProductService {
         List<ProductDetail> list = product.getDetails();
         if (list != null && !list.isEmpty()){
             for (ProductDetail productDetail : list) {
+                productDetail.setProductId(product.getId());
                 if (productDetail.getId()==null){
-                    productDetail.setProductId(product.getId());
                     productDetailMapper.insert(productDetail);
                 }else {
                     if (StringUtils.isEmpty(productDetail.getFunctionName())&& StringUtils.isEmpty(productDetail.getFunctionDesc())){
@@ -199,9 +199,9 @@ public class ProductServiceImpl implements IProductService {
         ProductExample.Criteria criteria = example.createCriteria();
         criteria.andShowHomeEqualTo(1);
         List<Product> list = productMapper.selectByExample(example);
-        if (list.size()>4){
-            list= list.subList(0,4);
-        }
+//        if (list.size()>4){
+//            list= list.subList(0,4);
+//        }
         for (Product product : list) {
             product.setImg(urlPrefix+product.getImg());
         }
